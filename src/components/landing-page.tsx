@@ -50,7 +50,7 @@ function Logo({ imgClass, textClass }: { imgClass?: string; textClass?: string }
   }
   return (
     // eslint-disable-next-line @next/next/no-img-element
-    <img ref={ref} src="/logo.png" alt="Columbus Cleaning Services" onError={() => setErr(true)} className={cn("w-auto rounded-md bg-white object-contain", imgClass ?? "h-10 p-1")} />
+    <img ref={ref} src="/logo.jpeg" alt="Columbus Cleaning Services" onError={() => setErr(true)} className={cn("w-auto rounded-md bg-white object-contain", imgClass ?? "h-10 p-1")} />
   );
 }
 
