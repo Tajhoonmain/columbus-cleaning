@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import {
   Phone, ArrowRight, Mail, Sparkles, SprayCan, Package, Building2, HardHat, Sofa,
   ShieldCheck, BadgeDollarSign, CalendarClock, Users, Home, Star,
@@ -31,17 +31,26 @@ function Eyebrow({ children, icon: Icon, className }: { children: React.ReactNod
   );
 }
 
-function Logo() {
-  return (
-    <a href="#top" className="flex items-center gap-2.5">
-      <svg width="26" height="26" viewBox="0 0 24 24" fill="none" aria-hidden>
-        <path d="M4 13c3-1 5-3 7-6 1 3 3 5 6 6-1 4-3 6-6.5 7C7 19 5 17 4 13Z" fill="#3b82f6" />
-        <path d="M13 3c1.6.9 2 2.3 1.4 3.6" stroke="#93c5fd" strokeWidth="1.6" strokeLinecap="round" />
-      </svg>
-      <span className="font-serif text-xl tracking-tight text-white">
-        Columbus <span className="italic text-[#60a5fa]">Cleaning</span>
+/** Brand logo. Renders /logo.png (in a white chip so it reads cleanly on the
+ *  dark theme); falls back to a styled wordmark if the image is missing. */
+function Logo({ imgClass, textClass }: { imgClass?: string; textClass?: string }) {
+  const [err, setErr] = useState(false);
+  const ref = useRef<HTMLImageElement>(null);
+  // Catch a 404 that resolves before hydration attaches onError.
+  useEffect(() => {
+    const img = ref.current;
+    if (img && img.complete && img.naturalWidth === 0) setErr(true);
+  }, []);
+  if (err) {
+    return (
+      <span className={cn("font-serif tracking-tight text-white", textClass ?? "text-xl")}>
+        Columbus <span className="italic text-[#60a5fa]">Cleaning Services</span>
       </span>
-    </a>
+    );
+  }
+  return (
+    // eslint-disable-next-line @next/next/no-img-element
+    <img ref={ref} src="/logo.png" alt="Columbus Cleaning Services" onError={() => setErr(true)} className={cn("w-auto rounded-md bg-white object-contain", imgClass ?? "h-10 p-1")} />
   );
 }
 
@@ -76,7 +85,7 @@ function Nav() {
   return (
     <header className={cn("fixed inset-x-0 top-0 z-50 transition-all", scrolled ? "border-b border-white/10 bg-[#0a0a0a]/85 backdrop-blur-md" : "border-b border-transparent")}>
       <div className="mx-auto flex h-16 max-w-6xl items-center justify-between gap-4 px-6">
-        <Logo />
+        <a href="#top" aria-label="Columbus Cleaning Services" className="flex items-center"><Logo imgClass="h-11 p-1" /></a>
         <nav className="ml-auto hidden items-center gap-7 lg:flex">
           {links.map(([href, key]) => (
             <a key={href} href={href} className="text-sm font-medium text-white/75 transition hover:text-white">{t(key)}</a>
@@ -335,7 +344,7 @@ function Footer() {
       <div className="mx-auto max-w-6xl">
         <div className="flex flex-col justify-between gap-8 md:flex-row md:items-start">
           <div className="max-w-sm">
-            <span className="font-serif text-xl text-white">Columbus <span className="italic text-[#60a5fa]">Cleaning</span></span>
+            <Logo imgClass="h-20 w-auto p-2" textClass="text-xl" />
             <p className="mt-3 text-sm leading-relaxed">{t("foot.tag")}</p>
           </div>
           <div className="text-sm md:text-right">
