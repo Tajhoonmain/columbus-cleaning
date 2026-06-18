@@ -31,8 +31,8 @@ function Eyebrow({ children, icon: Icon, className }: { children: React.ReactNod
   );
 }
 
-/** Brand logo. Renders /logo.png (in a white chip so it reads cleanly on the
- *  dark theme); falls back to a styled wordmark if the image is missing. */
+/** Brand lockup: the transparent circular emblem + the full business name.
+ *  The emblem hides gracefully if its file is ever missing. */
 function Logo({ imgClass, textClass }: { imgClass?: string; textClass?: string }) {
   const [err, setErr] = useState(false);
   const ref = useRef<HTMLImageElement>(null);
@@ -41,16 +41,16 @@ function Logo({ imgClass, textClass }: { imgClass?: string; textClass?: string }
     const img = ref.current;
     if (img && img.complete && img.naturalWidth === 0) setErr(true);
   }, []);
-  if (err) {
-    return (
-      <span className={cn("font-serif tracking-tight text-white", textClass ?? "text-xl")}>
+  return (
+    <span className="flex items-center gap-2.5">
+      {!err && (
+        // eslint-disable-next-line @next/next/no-img-element
+        <img ref={ref} src="/logo-mark.png" alt="Columbus Cleaning Services emblem" onError={() => setErr(true)} className={cn("w-auto object-contain", imgClass ?? "h-9")} />
+      )}
+      <span className={cn("whitespace-nowrap font-serif tracking-tight text-white", textClass ?? "text-lg")}>
         Columbus <span className="italic text-[#60a5fa]">Cleaning Services</span>
       </span>
-    );
-  }
-  return (
-    // eslint-disable-next-line @next/next/no-img-element
-    <img ref={ref} src="/logo.jpeg" alt="Columbus Cleaning Services" onError={() => setErr(true)} className={cn("w-auto rounded-md bg-white object-contain", imgClass ?? "h-10 p-1")} />
+    </span>
   );
 }
 
@@ -85,7 +85,7 @@ function Nav() {
   return (
     <header className={cn("fixed inset-x-0 top-0 z-50 transition-all", scrolled ? "border-b border-white/10 bg-[#0a0a0a]/85 backdrop-blur-md" : "border-b border-transparent")}>
       <div className="mx-auto flex h-16 max-w-6xl items-center justify-between gap-4 px-6">
-        <a href="#top" aria-label="Columbus Cleaning Services" className="flex items-center"><Logo imgClass="h-11 p-1" /></a>
+        <a href="#top" aria-label="Columbus Cleaning Services" className="flex items-center"><Logo imgClass="h-9" textClass="hidden text-lg sm:inline sm:text-xl" /></a>
         <nav className="ml-auto hidden items-center gap-7 lg:flex">
           {links.map(([href, key]) => (
             <a key={href} href={href} className="text-sm font-medium text-white/75 transition hover:text-white">{t(key)}</a>
@@ -93,7 +93,7 @@ function Nav() {
         </nav>
         <div className="flex items-center gap-3">
           <LangPill />
-          <a href="#contact" className="rounded-md bg-gradient-to-b from-[#3b82f6] to-[#2563eb] px-4 py-2 text-sm font-semibold text-white shadow-[0_8px_20px_-8px_rgba(37,99,235,.8)] transition hover:brightness-110">{t("nav.cta")}</a>
+          <a href="#contact" className="whitespace-nowrap rounded-md bg-gradient-to-b from-[#3b82f6] to-[#2563eb] px-4 py-2 text-sm font-semibold text-white shadow-[0_8px_20px_-8px_rgba(37,99,235,.8)] transition hover:brightness-110">{t("nav.cta")}</a>
         </div>
       </div>
     </header>
@@ -344,7 +344,7 @@ function Footer() {
       <div className="mx-auto max-w-6xl">
         <div className="flex flex-col justify-between gap-8 md:flex-row md:items-start">
           <div className="max-w-sm">
-            <Logo imgClass="h-20 w-auto p-2" textClass="text-xl" />
+            <Logo imgClass="h-12" textClass="text-2xl" />
             <p className="mt-3 text-sm leading-relaxed">{t("foot.tag")}</p>
           </div>
           <div className="text-sm md:text-right">
