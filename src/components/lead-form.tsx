@@ -46,18 +46,18 @@ export function EstimateForm() {
 
   if (sent) {
     return (
-      <div className="flex min-h-[300px] items-center justify-center rounded-md bg-card p-8 text-center font-medium text-leaf shadow-xl">
+      <div className="flex min-h-[300px] items-center justify-center rounded-md border border-white/10 bg-[#111827] p-8 text-center font-medium text-[#4ade80] shadow-2xl">
         {t("f.ok")}
       </div>
     );
   }
 
-  const label = "block text-[0.68rem] font-semibold uppercase tracking-[0.12em] text-muted-foreground";
+  const label = "block text-[0.68rem] font-semibold uppercase tracking-[0.12em] text-white/50";
   const field =
-    "w-full border-0 border-b border-sand bg-transparent px-0 py-2.5 text-foreground outline-none transition focus:border-forest placeholder:text-muted-foreground/60";
+    "w-full border-0 border-b border-white/15 bg-transparent px-0 py-2.5 text-white outline-none transition focus:border-[#3b82f6] placeholder:text-white/35 [color-scheme:dark]";
 
   return (
-    <form onSubmit={onSubmit} className="rounded-md bg-card p-7 shadow-xl md:p-8">
+    <form onSubmit={onSubmit} className="rounded-md border border-white/10 bg-[#111827] p-7 shadow-2xl md:p-8">
       <input type="checkbox" name="botcheck" tabIndex={-1} autoComplete="off" aria-hidden className="absolute -left-[9999px] h-px w-px opacity-0" />
       <div className="grid grid-cols-1 gap-x-8 gap-y-6 sm:grid-cols-2">
         <div>
@@ -98,7 +98,7 @@ export function EstimateForm() {
           <textarea id="c-note" name="message" rows={2} className={`${field} resize-none`} />
         </div>
       </div>
-      <button type="submit" disabled={busy} className="mt-8 w-full rounded-md bg-forest px-6 py-4 text-sm font-semibold uppercase tracking-wide text-cream transition hover:opacity-90 disabled:opacity-70">
+      <button type="submit" disabled={busy} className="mt-8 w-full rounded-md bg-gradient-to-b from-[#3b82f6] to-[#2563eb] px-6 py-4 text-sm font-semibold uppercase tracking-wide text-white shadow-[0_10px_30px_-8px_rgba(37,99,235,.7)] transition hover:brightness-110 disabled:opacity-70">
         {busy ? t("f.sending") : t("f.submit")}
       </button>
     </form>
