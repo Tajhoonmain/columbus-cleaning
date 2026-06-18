@@ -16,7 +16,7 @@ export const config = {
   adsCallLabel: process.env.NEXT_PUBLIC_ADS_CALL_LABEL ?? "",
   googleProfileUrl:
     process.env.NEXT_PUBLIC_GOOGLE_PROFILE_URL ??
-    "https://www.google.com/search?q=Columbus+Cleaning+Services+Columbus+OH+reviews",
+    "https://share.google/413Ccm5j02r6P5uYY",
 };
 
 export const areas = ["Worthington", "Upper Arlington", "New Albany", "Reynoldsburg", "Dublin", "Columbus", "Gahanna", "Westerville"];
